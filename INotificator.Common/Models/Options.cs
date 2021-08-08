@@ -1,4 +1,6 @@
-﻿namespace INotificator.Common.Models
+﻿using System;
+
+namespace INotificator.Common.Models
 {
     public class Options
     {
@@ -11,9 +13,12 @@
         public AvitoConfig Avito { get; set; }
 
         public OnlinetradeConfig Onlinetrade { get; set; }
+        
+        public LogToApiConfig Hpool { get; set; }
 
         public class DnsConfig
         {
+            public bool IsEnabled { get; set; }
             public string Url { get; set; }
             public string Configurator { get; set; }
         }
@@ -46,6 +51,15 @@
 
                 public string Path { get; set; }
             }
+        }
+        
+        public class LogToApiConfig
+        {
+            public bool IsEnabled { get; set; }
+            
+            public string Url { get; set; }
+            
+            public string TargetCapacity { get; set; }
         }
     }
 }

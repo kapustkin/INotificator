@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.HeaderPropagation;
 
 namespace INotificator
 {
@@ -45,16 +46,24 @@ namespace INotificator
                 .AddSingleton<IDnsReceiver, DnsReceiver>()
                 .AddSingleton<IDnsParser, DnsParser>()
                 .AddSingleton<IDnsService, DnsService>()
+                .AddSingleton<IHpoolService, HpoolService>()
                 .AddSingleton<IAvitoReceiver, AvitoReceiver>()
                 .AddSingleton<IAvitoParser, AvitoParser>()
                 .AddSingleton<IAvitoService, AvitoService>()
+                .AddSingleton<ILogToApiParser, LogToApiParser>()
                 .AddSingleton<IOnlinetradeReceiver, OnlinetradeReceiver>()
                 .AddSingleton<IOnlinetradeParser, OnlinetradeParser>()
                 .AddSingleton<IOnlinetradeService, OnlinetradeService>()
+                .AddSingleton<ILogToApiReceiver, LogToApiReceiver>()
                 .AddHttpClient();
 
+            services.AddHeaderPropagation(options =>
+            {
+                // options.Headers.Add("Cookie");
+            });
+
             services.AddHostedService<NotificationService>();
-            
+
             services.Configure<Options>(configuration.GetSection("App"));
 
             services.AddLogging(builder =>
@@ -70,7 +79,7 @@ namespace INotificator
             });
 
             services.AddOptions();
-            
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

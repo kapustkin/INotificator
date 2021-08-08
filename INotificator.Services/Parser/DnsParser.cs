@@ -48,7 +48,7 @@ namespace INotificator.Services.Parser
                             Name = productName.Groups[1].Value,
                             Url = $"{_url}{url.Groups[1].Value.Replace("amp;dst=rsu", "dst=rsu")}"
                         });
-                        _logger.LogDebug($"Find item: {productName.Groups[1].Value}");
+                        _logger.LogTrace($"Find item: {productName.Groups[1].Value}");
                     }
                     else
                     {

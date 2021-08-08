@@ -53,7 +53,7 @@ namespace INotificator.Services.Parser
                             Url = $"{_url}{url.Groups[1].Value.Replace("amp;dst=rsu", "dst=rsu")}",
                             Price = price.Groups[1].Value
                         });
-                        _logger.LogDebug($"Find item: {productName.Groups[1].Value}");
+                        _logger.LogTrace($"Find item: {productName.Groups[1].Value}");
                     }
                     else
                     {

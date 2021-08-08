@@ -33,7 +33,7 @@ namespace INotificator.Services
 
         public Task SearchProducts()
         {
-            if (_options.Dns?.Url == null)
+            if (_options.Dns?.IsEnabled == false)
             {
                 return Task.CompletedTask;
             }

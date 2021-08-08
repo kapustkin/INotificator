@@ -55,7 +55,7 @@ namespace INotificator.Services.Parser
                             Price = price.Groups[1].Value?.Replace(" ", string.Empty),
                             Url = $"{_url}{url.Groups[1].Value}"
                         });
-                        _logger.LogDebug($"Find item: {productName.Groups[1].Value}");
+                        _logger.LogTrace($"Find item: {productName.Groups[1].Value}");
                     }
                     else
                     {

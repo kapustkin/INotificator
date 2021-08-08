@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using INotificator.Common.Interfaces;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Services;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ namespace INotificator
         private readonly IDnsService _dnsService;
         private readonly IAvitoService _avitoService;
         private readonly IOnlinetradeService _onlinetradeService;
+        private readonly IHpoolService _hpoolService;
         private readonly ILogger _logger;
 
         private bool _isWorking = true;
@@ -21,11 +23,13 @@ namespace INotificator
             IDnsService dnsService,
             IAvitoService avitoService,
             IOnlinetradeService onlinetradeService,
+            IHpoolService hpoolService,
             ILogger<NotificationService> logger)
         {
             _dnsService = dnsService;
             _avitoService = avitoService;
             _onlinetradeService = onlinetradeService;
+            _hpoolService = hpoolService;
             _logger = logger;
         }        
         
@@ -54,7 +58,9 @@ namespace INotificator
                     var avito = _avitoService.SearchProducts();
                     var onlinetrade = _onlinetradeService.SearchProducts();
 
-                    Task.WaitAll( dns, avito, onlinetrade );
+                    var hpoolService = _hpoolService.CheckLog();
+                    
+                    Task.WaitAll( dns, avito, onlinetrade, hpoolService);
                 }
                 catch (Exception ex)
                 {

@@ -12,7 +12,7 @@ namespace INotificator.Services.Receivers
         private readonly ILogger _logger;
 
 
-        protected BaseHttpReceiver( IHttpClientFactory clientFactory,
+        protected BaseHttpReceiver(IHttpClientFactory clientFactory,
             ILogger logger)
         {
             _clientFactory = clientFactory;
@@ -24,12 +24,17 @@ namespace INotificator.Services.Receivers
             return content.ReadAsStringAsync();
         }
 
+        protected virtual HttpClient GetHttpClient()
+        {
+            return _clientFactory.CreateClient();
+        }
+
         protected abstract HttpRequestMessage HttpRequest(string path);
 
         public async Task<DataResult<string>> GetData(string path)
         {
             _logger.LogTrace($"Send request to {path}");
-            var client = _clientFactory.CreateClient();
+            var client = GetHttpClient();
             var response = await client.SendAsync(HttpRequest(path));
             if (response.IsSuccessStatusCode)
             {
@@ -40,7 +45,7 @@ namespace INotificator.Services.Receivers
                 {
                     Data = result
                 };
-            } 
+            }
             _logger.LogError($"Request failed. Status code: {response.StatusCode}");
             return new DataResult<string>()
             {
