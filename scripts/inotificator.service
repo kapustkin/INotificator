@@ -1,0 +1,13 @@
+[Unit]
+Description=INotificator service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/inotificator
+ExecStart=/home/pi/inotificator/INotificator
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
