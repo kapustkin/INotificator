@@ -48,7 +48,7 @@ namespace INotificator.Services
 
                     var hpoolService = _hpoolService.CheckLog();
                     
-                    Task.WaitAll( dns, avito, onlinetrade, hpoolService);
+                    await Task.WhenAll( dns, avito, onlinetrade, hpoolService);
                 }
                 catch (Exception ex)
                 {
