@@ -6,6 +6,7 @@ using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Logger;
 using INotificator.Common.Models;
 using INotificator.Common.Services;
+using INotificator.Context;
 using INotificator.Services;
 using INotificator.Services.Parser;
 using INotificator.Services.Receivers;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.HeaderPropagation;
+using Microsoft.EntityFrameworkCore;
 
 namespace INotificator
 {
@@ -40,29 +42,28 @@ namespace INotificator
                 .AddEnvironmentVariables()
                 .Build();
 
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("AppDbContext")));
+            
             services
-                .AddSingleton<IStorage<Product>, FileStorageService>()
-                .AddSingleton<ISender, TelegramBotService>()
-                .AddSingleton<IDnsReceiver, DnsReceiver>()
-                .AddSingleton<IDnsParser, DnsParser>()
-                .AddSingleton<IDnsService, DnsService>()
-                .AddSingleton<IHpoolService, HpoolService>()
-                .AddSingleton<IAvitoReceiver, AvitoReceiver>()
-                .AddSingleton<IAvitoParser, AvitoParser>()
-                .AddSingleton<IAvitoService, AvitoService>()
-                .AddSingleton<ILogToApiParser, LogToApiParser>()
-                .AddSingleton<IOnlinetradeReceiver, OnlinetradeReceiver>()
-                .AddSingleton<IOnlinetradeParser, OnlinetradeParser>()
-                .AddSingleton<IOnlinetradeService, OnlinetradeService>()
-                .AddSingleton<ILogToApiReceiver, LogToApiReceiver>()
+                .AddScoped<IBackgroundService, NotificationService>()
+                .AddScoped<IStorage<Product>, DataBaseStorage>()
+                .AddScoped<ISender, TelegramBotService>()
+                .AddScoped<IDnsReceiver, DnsReceiver>()
+                .AddScoped<IDnsParser, DnsParser>()
+                .AddScoped<IDnsService, DnsService>()
+                .AddScoped<IHpoolService, HpoolService>()
+                .AddScoped<IAvitoReceiver, AvitoReceiver>()
+                .AddScoped<IAvitoParser, AvitoParser>()
+                .AddScoped<IAvitoService, AvitoService>()
+                .AddScoped<ILogToApiParser, LogToApiParser>()
+                .AddScoped<IOnlinetradeReceiver, OnlinetradeReceiver>()
+                .AddScoped<IOnlinetradeParser, OnlinetradeParser>()
+                .AddScoped<IOnlinetradeService, OnlinetradeService>()
+                .AddScoped<ILogToApiReceiver, LogToApiReceiver>()
                 .AddHttpClient();
-
-            services.AddHeaderPropagation(options =>
-            {
-                // options.Headers.Add("Cookie");
-            });
-
-            services.AddHostedService<NotificationService>();
+            
+            services.AddHostedService<AppBackgroundService>();
 
             services.Configure<Options>(configuration.GetSection("App"));
 

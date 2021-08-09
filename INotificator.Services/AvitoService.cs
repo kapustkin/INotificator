@@ -46,7 +46,7 @@ namespace INotificator.Services
 
             if ((DateTime.Now - _lastStarted).TotalMinutes < UpdateDelayMinutes)
             {
-                _logger.LogDebug($"Skipped. Will started after {UpdateDelayMinutes - (DateTime.Now - _lastStarted).TotalMinutes} min");
+                _logger.LogDebug($"Skipped. Will started after {(int)(UpdateDelayMinutes - (DateTime.Now - _lastStarted).TotalMinutes)} min");
                 return Task.CompletedTask;
             }
             _lastStarted = DateTime.Now;

@@ -47,7 +47,7 @@ namespace INotificator.Services
             {
                 foreach (var product in products.Data.Take(10).Reverse())
                 {
-                    if (_storage.GetItem(product.Name) == null)
+                    if (await _storage.GetItem(product.Name) == null)
                     {
                         var sended = false;
                         var count = 0;

@@ -10,7 +10,7 @@ namespace INotificator.Common.Interfaces
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        T GetItem(string name);
+        Task<T> GetItem(string name);
 
         /// <summary>
         /// Add item in storage

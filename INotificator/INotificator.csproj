@@ -12,6 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="5.0.3" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
 
     </ItemGroup>
 
@@ -24,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\INotificator.Common\INotificator.Common.csproj" />
+      <ProjectReference Include="..\INotificator.Context\INotificator.Context.csproj" />
       <ProjectReference Include="..\INotificator.Services\INotificator.Services.csproj" />
     </ItemGroup>
 

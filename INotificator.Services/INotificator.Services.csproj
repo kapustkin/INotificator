@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\INotificator.Common\INotificator.Common.csproj" />
+      <ProjectReference Include="..\INotificator.Context\INotificator.Context.csproj" />
     </ItemGroup>
 
     <ItemGroup>

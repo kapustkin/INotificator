@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INotificator.Services", "IN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INotificator", "INotificator\INotificator.csproj", "{51C8762E-0C11-4B7B-9145-BAECFD2FA89C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INotificator.Context", "INotificator.Context\INotificator.Context.csproj", "{EECCAD1B-7ED3-4085-BDB8-9ED074FFF4F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{51C8762E-0C11-4B7B-9145-BAECFD2FA89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51C8762E-0C11-4B7B-9145-BAECFD2FA89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51C8762E-0C11-4B7B-9145-BAECFD2FA89C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECCAD1B-7ED3-4085-BDB8-9ED074FFF4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECCAD1B-7ED3-4085-BDB8-9ED074FFF4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECCAD1B-7ED3-4085-BDB8-9ED074FFF4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECCAD1B-7ED3-4085-BDB8-9ED074FFF4F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

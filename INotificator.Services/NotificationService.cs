@@ -3,13 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
 using INotificator.Common.Interfaces.Services;
-using INotificator.Services;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace INotificator
+namespace INotificator.Services
 {
-    public class NotificationService : IHostedService
+    /// <summary>
+    /// Главный сервис
+    /// </summary>
+    public class NotificationService : IBackgroundService
     {
         private readonly IDnsService _dnsService;
         private readonly IAvitoService _avitoService;
@@ -18,6 +19,8 @@ namespace INotificator
         private readonly ILogger _logger;
 
         private bool _isWorking = true;
+
+        private readonly CancellationTokenSource _token = new();
         
         public NotificationService(
             IDnsService dnsService,
@@ -33,22 +36,7 @@ namespace INotificator
             _logger = logger;
         }        
         
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-#pragma warning disable 4014
-            Start();
-#pragma warning restore 4014
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _isWorking = false;
-            
-            return Task.CompletedTask;
-        }
-
-        private async Task Start()
+        public async Task StartAsync()
         {
             while (_isWorking)
             {
@@ -67,8 +55,19 @@ namespace INotificator
                     _logger.LogError($"Unhandled error in service! {ex.Message} {ex.StackTrace}");
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(5));
+                await Task.Delay(TimeSpan.FromMinutes(1), _token.Token);
             }
+            
+            _logger.Log(LogLevel.Debug, "Background service is shutdown");
+        }
+
+        public Task StopAsync()
+        {
+            _isWorking = false;
+            _token.Cancel();
+            _token.Dispose();
+            
+            return Task.CompletedTask;
         }
     }
 }

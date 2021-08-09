@@ -10,14 +10,14 @@ using Microsoft.Extensions.Logging;
 
 namespace INotificator.Services.Storages
 {
-    public class FileStorageService : IStorage<Product>
+    public class FileStorage : IStorage<Product>
     {
         private readonly string _fileName = $"{AppDomain.CurrentDomain.BaseDirectory}storage.json";
         private ICollection<Product> _storage;
 
         private static readonly object LockObject = new object();
 
-        public FileStorageService(ILogger<FileStorageService> logger)
+        public FileStorage(ILogger<FileStorage> logger)
         {
             logger.LogDebug($"Storage: {_fileName}");
 
@@ -34,9 +34,9 @@ namespace INotificator.Services.Storages
         }
 
         /// </inheritdoc>
-        public Product GetItem(string name)
+        public Task<Product> GetItem(string name)
         {
-            return _storage?.FirstOrDefault(s => s.Name == name);
+            return Task.FromResult(_storage?.FirstOrDefault(s => s.Name == name));
         }
 
         public Task<bool> AddItem(Product item)
