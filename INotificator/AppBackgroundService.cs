@@ -19,14 +19,11 @@ namespace INotificator
         {
             _serviceScopeFactory = serviceScopeFactory;
         }
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                _service = scope.ServiceProvider.GetRequiredService<IBackgroundService>();
-                _service.StartAsync();
-            }
-            return Task.CompletedTask;
+            using var scope = _serviceScopeFactory.CreateScope();
+            _service = scope.ServiceProvider.GetRequiredService<IBackgroundService>();
+            await _service.StartAsync();
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
