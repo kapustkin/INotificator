@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
 using Microsoft.Extensions.Logging;
 
 namespace INotificator.Services
@@ -24,7 +23,7 @@ namespace INotificator.Services
             _logger = logger;
         }
 
-        protected async Task SearchProducts(IReceiver receiver, IParser parser, string url)
+        protected async Task SearchProducts(IReceiver receiver, IParser parser, string url, bool disableNotification)
         {
             _logger.LogDebug($"Search products started {url}");
 
@@ -63,7 +62,7 @@ namespace INotificator.Services
                                             ? $"{product.Name} | {product.Price}р"
                                             : $"{product.Name}",
                                         Link = product.Url,
-                                    });
+                                    }, disableNotification);
                                 count++;
                             }
                             catch (Exception ex)

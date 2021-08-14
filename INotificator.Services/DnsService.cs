@@ -5,8 +5,6 @@ using INotificator.Common.Interfaces.Parsers;
 using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
-using INotificator.Services.Receivers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options = INotificator.Common.Models.Options;
@@ -38,7 +36,7 @@ namespace INotificator.Services
                 return Task.CompletedTask;
             }
 
-            return base.SearchProducts(_receiver, _parser, $"{_options.Dns.Url}{_options.Dns.Configurator}");
+            return base.SearchProducts(_receiver, _parser, $"{_options.Dns.Url}{_options.Dns.Configurator}", false);
         }
     }
 

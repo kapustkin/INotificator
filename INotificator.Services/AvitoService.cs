@@ -7,7 +7,6 @@ using INotificator.Common.Interfaces.Parsers;
 using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options = INotificator.Common.Models.Options;
@@ -50,15 +49,14 @@ namespace INotificator.Services
                 return Task.CompletedTask;
             }
             _lastStarted = DateTime.Now;
-
-            var tasks = new List<Task>();
+            
             // ReSharper disable once PossibleNullReferenceException
             foreach (var watcher in _options.Avito?.Watchers?.Where(s => s.IsEnabled))
             {
-                tasks.Add(base.SearchProducts(_receiver, _parser, $"{_options.Avito.Url}{watcher.Path}"));
+                base.SearchProducts(_receiver, _parser, $"{_options.Avito.Url}{watcher.Path}", watcher.DisableNotification).GetAwaiter().GetResult();
             }
-
-            return Task.WhenAll(tasks);
+            
+            return Task.CompletedTask;
         }
     }
 }

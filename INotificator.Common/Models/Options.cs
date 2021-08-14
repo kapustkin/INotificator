@@ -33,6 +33,8 @@ namespace INotificator.Common.Models
                 public string Name { get; set; }
 
                 public bool IsEnabled { get; set; }
+                
+                public bool DisableNotification { get; set; }
 
                 public string Path { get; set; }
             }

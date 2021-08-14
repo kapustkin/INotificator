@@ -7,7 +7,6 @@ using INotificator.Common.Interfaces.Parsers;
 using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options = INotificator.Common.Models.Options;
@@ -43,7 +42,7 @@ namespace INotificator.Services
             // ReSharper disable once PossibleNullReferenceException
             foreach (var watcher in _options.Onlinetrade?.Watchers?.Where(s => s.IsEnabled))
             {
-                tasks.Add(base.SearchProducts(_receiver, _parser, $"{_options.Onlinetrade.Url}{watcher.Path}"));
+                tasks.Add(base.SearchProducts(_receiver, _parser, $"{_options.Onlinetrade.Url}{watcher.Path}", false));
             }
 
             return Task.WhenAll(tasks);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
+using INotificator.Common.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -36,14 +36,19 @@ namespace INotificator.Services.Senders
             }
         }
 
-        public async Task<bool> Send(Message message)
+        public Task<bool> Send(Message message)
+        {
+            return Send(message, true);
+        }
+
+        public async Task<bool> Send(Message message, bool disableNotification)
         {
             try
             {
                 var result = await _botClient.SendTextMessageAsync(
                     chatId: new Telegram.Bot.Types.ChatId(_options.ChatId),
                     text: $"{message.MessageText} {message.Link}",
-                    disableNotification: false
+                    disableNotification: disableNotification
                 );
 
                 _logger.LogInformation($"Send message {message.Source} {message.MessageText}");

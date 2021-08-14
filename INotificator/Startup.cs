@@ -5,7 +5,6 @@ using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Logger;
 using INotificator.Common.Models;
-using INotificator.Common.Services;
 using INotificator.Context;
 using INotificator.Services;
 using INotificator.Services.Parser;
@@ -19,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.HeaderPropagation;
 using Microsoft.EntityFrameworkCore;
 
 namespace INotificator
