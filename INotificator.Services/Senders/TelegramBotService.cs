@@ -38,7 +38,7 @@ namespace INotificator.Services.Senders
 
         public Task<bool> Send(Message message)
         {
-            return Send(message, true);
+            return Send(message, false);
         }
 
         public async Task<bool> Send(Message message, bool disableNotification)
