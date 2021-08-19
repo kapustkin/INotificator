@@ -23,22 +23,21 @@ namespace INotificator.Services
             _logger = logger;
         }
 
-        protected async Task SearchProducts(IReceiver receiver, IParser parser, string url, bool disableNotification)
+        protected async Task<bool> SearchProducts(IReceiver receiver, IParser parser, string url, bool disableNotification)
         {
             _logger.LogDebug($"Search products started {url}");
 
             var data = await receiver.GetData(url);
             if (data.HasError)
             {
-                await _sender.Send(new Message {MessageText = $"Receiver error! {data.ErrorMessage}"});
-                return;
+                return false;
             }
 
             var products = parser.ParseResult(data.Data);
             if (products.HasError)
             {
-                await _sender.Send(new Message {MessageText = $"Parser error! {data.ErrorMessage}"});
-                return;
+                await SendMessage($"Parser error: {data.ErrorMessage}");
+                return false;
             }
 
             //Проверяем есть ли новые продукты
@@ -90,6 +89,16 @@ namespace INotificator.Services
             }
 
             _logger.LogDebug($"Search products finished");
+
+            return true;
+        }
+
+        protected Task SendMessage(string message, bool disableNotification = false)
+        {
+            return _sender.Send(new Message
+            {
+                MessageText = $"{GetType().Name} | {message}"
+            },disableNotification);
         }
     }
 }

@@ -15,7 +15,8 @@ namespace INotificator.Services
 {
     public class AvitoService : BaseProductService, IAvitoService
     {
-        private const int UpdateDelayMinutes = 60;
+        private const int UpdateDelayMinutes = 30;
+        private bool hasSendedErrorNotification = false;
 
         private DateTime _lastStarted;
         private readonly IAvitoReceiver _receiver;
@@ -36,27 +37,39 @@ namespace INotificator.Services
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public Task SearchProducts()
+        public async Task SearchProducts()
         {
             if (_options.Avito?.Watchers == null)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             if ((DateTime.Now - _lastStarted).TotalMinutes < UpdateDelayMinutes)
             {
                 _logger.LogDebug($"Skipped. Will started after {(int)(UpdateDelayMinutes - (DateTime.Now - _lastStarted).TotalMinutes)} min");
-                return Task.CompletedTask;
+                return;
             }
-            _lastStarted = DateTime.Now;
-            
+
             // ReSharper disable once PossibleNullReferenceException
+            var isSuccess = true;
             foreach (var watcher in _options.Avito?.Watchers?.Where(s => s.IsEnabled))
             {
-                base.SearchProducts(_receiver, _parser, $"{_options.Avito.Url}{watcher.Path}", watcher.DisableNotification).GetAwaiter().GetResult();
+                isSuccess &= await base.SearchProducts(_receiver, _parser, $"{_options.Avito.Url}{watcher.Path}",
+                    watcher.DisableNotification);
             }
             
-            return Task.CompletedTask;
+            if (isSuccess)
+            {
+                _lastStarted = DateTime.Now;
+                hasSendedErrorNotification = false;
+                return;
+            }
+
+            if ((DateTime.Now - _lastStarted).Minutes > UpdateDelayMinutes * 2 && hasSendedErrorNotification == false)
+            {
+                await SendMessage($"Внимание! Данные не обновлялись более {UpdateDelayMinutes * 2} минут");
+                hasSendedErrorNotification = true;
+            }
         }
     }
 }

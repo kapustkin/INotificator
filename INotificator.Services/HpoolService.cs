@@ -72,7 +72,7 @@ namespace INotificator.Services
                 {
                     _logger.LogWarning(
                         $"Warning! Current capacity is '{lastRecord?.Capacity}'. Target capacity {_options.Hpool.TargetCapacity}");
-                    _sender.Send(new Message()
+                    await _sender.Send(new Message()
                     {
                         Source = "Hpool",
                         MessageText =
@@ -80,14 +80,13 @@ namespace INotificator.Services
                     });
                 }
 
-                if ((DateTime.Now - lastRecord?.DateTime).Value.Minutes > 30)
+                if (lastRecord != null && (DateTime.Now - lastRecord.DateTime).Minutes > 30)
                 {
                     _logger.Log(LogLevel.Warning, $"No data more than 30 minutes");
-                    _sender.Send(new Message()
+                    await _sender.Send(new Message()
                     {
                         Source = "Hpool",
-                        MessageText =
-                            $"Внимание! Отсутвуют данные более 30 минут!"
+                        MessageText = "Внимание! Отсутвуют данные более 30 минут!"
                     });
                 }
             }
