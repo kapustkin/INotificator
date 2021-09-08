@@ -44,6 +44,12 @@ namespace INotificator.Services
                 return;
             }
 
+            // Проверяем с 9 утра до 19
+            if (DateTime.Now.Hour is < 9 or >= 19)
+            {
+                return;
+            }
+
             try
             {
                 _logger.LogDebug($"ComputerUniverse checking started {_options.ComputerUniverse.Url}");
