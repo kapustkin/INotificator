@@ -16,6 +16,7 @@ namespace INotificator.Services
         private readonly IAvitoService _avitoService;
         private readonly IOnlinetradeService _onlinetradeService;
         private readonly IHpoolService _hpoolService;
+        private readonly IComputerUniverseService _computerUniverseService;
         private readonly ILogger _logger;
 
         private bool _isWorking = true;
@@ -27,12 +28,14 @@ namespace INotificator.Services
             IAvitoService avitoService,
             IOnlinetradeService onlinetradeService,
             IHpoolService hpoolService,
+            IComputerUniverseService computerUniverseService,
             ILogger<NotificationService> logger)
         {
             _dnsService = dnsService;
             _avitoService = avitoService;
             _onlinetradeService = onlinetradeService;
             _hpoolService = hpoolService;
+            _computerUniverseService = computerUniverseService;
             _logger = logger;
         }        
         
@@ -45,10 +48,11 @@ namespace INotificator.Services
                     var dns = _dnsService.SearchProducts();
                     var avito = _avitoService.SearchProducts();
                     var onlinetrade = _onlinetradeService.SearchProducts();
+                    var computerUniverse = _computerUniverseService.SearchProducts();
 
                     var hpoolService = _hpoolService.CheckLog();
                     
-                    await Task.WhenAll( dns, avito, onlinetrade, hpoolService);
+                    await Task.WhenAll( dns, avito, onlinetrade, computerUniverse, hpoolService);
                 }
                 catch (Exception ex)
                 {

@@ -22,7 +22,7 @@ namespace INotificator.Services.Storages
 
         public async Task<Product> GetItem(string name)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(s => s.Name == name);
+            var product = await _context.Products.OrderByDescending(s=>s.Date).FirstOrDefaultAsync(s => s.Name == name);
             return product?.MapToProduct();
         }
 

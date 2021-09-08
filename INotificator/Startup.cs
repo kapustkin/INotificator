@@ -50,15 +50,21 @@ namespace INotificator
                 .AddScoped<IDnsReceiver, DnsReceiver>()
                 .AddScoped<IDnsParser, DnsParser>()
                 .AddScoped<IDnsService, DnsService>()
-                .AddScoped<IHpoolService, HpoolService>()
+
                 .AddScoped<IAvitoReceiver, AvitoReceiver>()
                 .AddScoped<IAvitoParser, AvitoParser>()
                 .AddScoped<IAvitoService, AvitoService>()
-                .AddScoped<IBasicApiParser, BasicApiParser>()
+
                 .AddScoped<IOnlinetradeReceiver, OnlinetradeReceiver>()
                 .AddScoped<IOnlinetradeParser, OnlinetradeParser>()
                 .AddScoped<IOnlinetradeService, OnlinetradeService>()
+                
                 .AddScoped<IBasicApiReceiver, BasicApiReceiver>()
+                .AddScoped<IBasicApiParser, BasicApiParser>()
+                .AddScoped<IHpoolService, HpoolService>()
+                
+                .AddScoped<IComputerUniverseService, ComputerUniverseService>()
+                
                 .AddHttpClient();
             
             services.AddHostedService<AppBackgroundService>();

@@ -14,7 +14,9 @@ namespace INotificator.Common.Models
 
         public OnlinetradeConfig Onlinetrade { get; set; }
         
-        public LogToApiConfig Hpool { get; set; }
+        public HpoolConfig Hpool { get; set; }
+        
+        public ComputerUniverseConfig ComputerUniverse { get; set; }
 
         public class DnsConfig
         {
@@ -55,13 +57,20 @@ namespace INotificator.Common.Models
             }
         }
         
-        public class LogToApiConfig
+        public class HpoolConfig
         {
             public bool IsEnabled { get; set; }
             
             public string Url { get; set; }
             
             public string TargetCapacity { get; set; }
+        }
+        
+        public class ComputerUniverseConfig
+        {
+            public bool IsEnabled { get; set; }
+            
+            public string Url { get; set; }
         }
     }
 }
