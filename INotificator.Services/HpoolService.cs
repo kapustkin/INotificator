@@ -20,16 +20,16 @@ namespace INotificator.Services
         private const int UpdateDelayMinutes = 30;
         private DateTime _lastStarted;
         
-        private readonly ILogToApiReceiver _receiver;
-        private readonly ILogToApiParser _parser;
+        private readonly IBasicApiReceiver _receiver;
+        private readonly IBasicApiParser _parser;
         private readonly ISender _sender;
         
         private readonly ILogger _logger;
         private readonly Options _options;
         
         public HpoolService(
-            ILogToApiReceiver receiver,
-            ILogToApiParser parser,
+            IBasicApiReceiver receiver,
+            IBasicApiParser parser,
             ISender sender,
             ILogger<HpoolService> logger,
             IOptions<Options> options)
@@ -65,7 +65,7 @@ namespace INotificator.Services
                     return;
                 }
 
-                var logs = _parser.ParseResult(rawData.Data);
+                var logs = _parser.ParseResult<LogRecord>(rawData.Data);
 
                 var lastRecord = logs.Data.LastOrDefault(s => s.Message.Equals("new mining info"));
                 if (lastRecord?.Capacity.Equals(_options.Hpool.TargetCapacity) == false)

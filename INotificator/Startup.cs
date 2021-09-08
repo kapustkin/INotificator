@@ -54,11 +54,11 @@ namespace INotificator
                 .AddScoped<IAvitoReceiver, AvitoReceiver>()
                 .AddScoped<IAvitoParser, AvitoParser>()
                 .AddScoped<IAvitoService, AvitoService>()
-                .AddScoped<ILogToApiParser, LogToApiParser>()
+                .AddScoped<IBasicApiParser, BasicApiParser>()
                 .AddScoped<IOnlinetradeReceiver, OnlinetradeReceiver>()
                 .AddScoped<IOnlinetradeParser, OnlinetradeParser>()
                 .AddScoped<IOnlinetradeService, OnlinetradeService>()
-                .AddScoped<ILogToApiReceiver, LogToApiReceiver>()
+                .AddScoped<IBasicApiReceiver, BasicApiReceiver>()
                 .AddHttpClient();
             
             services.AddHostedService<AppBackgroundService>();

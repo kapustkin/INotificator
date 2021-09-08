@@ -8,11 +8,11 @@ using Microsoft.Extensions.Logging;
 
 namespace INotificator.Services.Receivers
 {
-    public class LogToApiReceiver : BaseHttpReceiver, ILogToApiReceiver
+    public class BasicApiReceiver : BaseHttpReceiver, IBasicApiReceiver
     {
         private readonly IHttpClientFactory _clientFactory;
         
-        public LogToApiReceiver(IHttpClientFactory clientFactory, ILogger<DnsReceiver> logger) : base(clientFactory, logger)
+        public BasicApiReceiver(IHttpClientFactory clientFactory, ILogger<DnsReceiver> logger) : base(clientFactory, logger)
         {
             _clientFactory = clientFactory;
         }

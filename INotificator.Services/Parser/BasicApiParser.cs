@@ -11,7 +11,7 @@ using INotificator.Common.Models;
 
 namespace INotificator.Services.Parser
 {
-    public class LogToApiParser: ILogToApiParser
+    public class BasicApiParser: IBasicApiParser
     {
         public class DateTimeConverter : JsonConverter<DateTime>
         {
@@ -27,11 +27,11 @@ namespace INotificator.Services.Parser
             }
         }
         
-        public DataResult<IEnumerable<LogRecord>> ParseResult(string data)
+        public DataResult<IEnumerable<T>> ParseResult<T>(string data)
         {
-            var result = new DataResult<IEnumerable<LogRecord>>()
+            var result = new DataResult<IEnumerable<T>>()
             {
-                Data = JsonSerializer.Deserialize<IEnumerable<LogRecord>>(data, new JsonSerializerOptions()
+                Data = JsonSerializer.Deserialize<IEnumerable<T>>(data, new JsonSerializerOptions()
                 {
                     Converters =
                     {
