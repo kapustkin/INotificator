@@ -66,7 +66,7 @@ namespace INotificator.Services
                 {
                     foreach (var product in products.Data.Where(s =>
                         s.Status.Equals("В наличии и готов к отправке", StringComparison.InvariantCultureIgnoreCase)
-                        && s.PriceEur is not (null and "")))
+                        && s.PriceEur is not (null or "")))
                     {
                         var storageProduct = await _storage.GetItem(product.Name);
                         if (storageProduct == null || !storageProduct.Price.Equals($"{product.PriceRur} / {product.PriceEur}", StringComparison.InvariantCultureIgnoreCase))
