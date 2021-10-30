@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
@@ -67,7 +68,7 @@ namespace INotificator.Services
                     return;
                 }
 
-                var logs = _parser.ParseResult<LogRecord>(rawData.Data);
+                var logs = _parser.ParseResult<IEnumerable<LogRecord>>(rawData.Data);
 
                 var lastRecord = logs.Data.LastOrDefault(s => s.Message.Equals("new mining info"));
                 if (lastRecord?.Capacity.Equals(_options.Hpool.TargetCapacity) == false)

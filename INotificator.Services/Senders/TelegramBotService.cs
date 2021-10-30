@@ -48,7 +48,7 @@ namespace INotificator.Services.Senders
             {
                 var result = await _botClient.SendTextMessageAsync(
                     chatId: new Telegram.Bot.Types.ChatId(_options.ChatId),
-                    text: $"{message.MessageText} {message.Link}",
+                    text: $"=== {message.Source} ==={Environment.NewLine}{message.MessageText} {message.Link}",
                     disableNotification: disableNotification
                 );
 

@@ -18,6 +18,15 @@ namespace INotificator.Services.Parser
             public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
                 Debug.Assert(typeToConvert == typeof(DateTime));
+
+                if (reader.TokenType == JsonTokenType.Number)
+                {
+                    // Unix time stamp
+                    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    dateTime = dateTime.AddSeconds(reader.GetDouble()).ToLocalTime();
+                    return dateTime;
+                }
+
                 return DateTime.ParseExact(reader.GetString(), "yyyy-MM-dd HH:mm:ss", null, DateTimeStyles.None);
             }
 
@@ -27,11 +36,11 @@ namespace INotificator.Services.Parser
             }
         }
         
-        public DataResult<IEnumerable<T>> ParseResult<T>(string data)
+        public DataResult<T> ParseResult<T>(string data)
         {
-            var result = new DataResult<IEnumerable<T>>()
+            var result = new DataResult<T>()
             {
-                Data = JsonSerializer.Deserialize<IEnumerable<T>>(data, new JsonSerializerOptions()
+                Data = JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions()
                 {
                     Converters =
                     {

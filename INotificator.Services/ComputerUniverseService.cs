@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
@@ -62,7 +63,7 @@ namespace INotificator.Services
                     return;
                 }
 
-                var products = _parser.ParseResult<ComputerUniverseProduct>(rawData.Data);
+                var products = _parser.ParseResult<IEnumerable<ComputerUniverseProduct>>(rawData.Data);
 
                 if (products?.Data?.Any() ?? false)
                 {

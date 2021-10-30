@@ -16,6 +16,8 @@ namespace INotificator.Common.Models
         
         public HpoolConfig Hpool { get; set; }
         
+        public ToMinersConfig ToMiners { get; set; }
+        
         public ComputerUniverseConfig ComputerUniverse { get; set; }
 
         public class DnsConfig
@@ -71,6 +73,17 @@ namespace INotificator.Common.Models
             public bool IsEnabled { get; set; }
             
             public string Url { get; set; }
+        }
+        
+        public class ToMinersConfig
+        {
+            public bool IsEnabled { get; set; }
+            
+            public string Url { get; set; }
+            
+            public int ApiVersion { get; set; }
+            
+            public int Workers { get; set; }
         }
     }
 }

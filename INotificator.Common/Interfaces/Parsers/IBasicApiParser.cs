@@ -11,6 +11,6 @@ namespace INotificator.Common.Interfaces.Parsers
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        DataResult<IEnumerable<T>> ParseResult<T>(string data);
+        DataResult<T> ParseResult<T>(string data);
     }
 }

@@ -35,12 +35,6 @@ namespace INotificator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddEnvironmentVariables()
-                .Build();
-
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("AppDbContext")));
             
@@ -63,6 +57,7 @@ namespace INotificator
                 .AddScoped<IBasicApiReceiver, BasicApiReceiver>()
                 .AddScoped<IBasicApiParser, BasicApiParser>()
                 .AddScoped<IHpoolService, HpoolService>()
+                .AddScoped<IToMinersService, ToMinersService>()
                 
                 .AddScoped<IComputerUniverseService, ComputerUniverseService>()
                 
@@ -70,11 +65,11 @@ namespace INotificator
             
             services.AddHostedService<AppBackgroundService>();
 
-            services.Configure<Options>(configuration.GetSection("App"));
+            services.Configure<Options>(Configuration.GetSection("App"));
 
             services.AddLogging(builder =>
             {
-                builder.AddConfiguration(configuration.GetSection("Logging"));
+                builder.AddConfiguration(Configuration.GetSection("Logging"));
                 builder.AddConsole();
                 builder.AddDebug();
 
