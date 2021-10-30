@@ -18,11 +18,13 @@ namespace INotificator.Services
     /// </summary>
     public class ToMinersService : IToMinersService
     {
-        private const long MEGAHASH = 1000000;
+        private const long Megahash = 1000000;
         private const int UpdateDelayMinutes = 30;
+        private const string Source = "2Miners";
         
         private DateTime _lastStarted;
         private int _paymentsTotal = 0;
+        private bool _hasWorkersError = false;
         
         private readonly IBasicApiReceiver _receiver;
         private readonly IBasicApiParser _parser;
@@ -92,9 +94,9 @@ namespace INotificator.Services
                     $"Warning! Api version changed");
                 await _sender.Send(new Message()
                 {
-                    Source = "2Miners",
+                    Source = Source,
                     MessageText =
-                        $"Внимание! Изменилась версия Api! Ождимаемая версия '{config.ApiVersion}', новая '{data.ApiVersion }'"
+                        $"Внимание! Изменилась версия Api! Ожидаемая версия '{config.ApiVersion}', текущая '{data.ApiVersion }'"
                 });
                 
                 return;
@@ -102,14 +104,22 @@ namespace INotificator.Services
 
             if (data.WorkersOnline < config.Workers)
             {
-                _logger.LogWarning(
-                    $"Warning! Workers count changed");
-                await _sender.Send(new Message()
+                if (!_hasWorkersError)
                 {
-                    Source = "2Miners",
-                    MessageText =
-                        $"Внимание! Изменилось количество воркеров. Ожидаемое кол-во '{config.Workers}', текущее '{data.WorkersOnline }'. Хешрейт {data.Hashrate / MEGAHASH :N1} MH/s"
-                });
+                    _hasWorkersError = true;
+                    _logger.LogWarning(
+                        $"Warning! Workers count changed");
+                    await _sender.Send(new Message()
+                    {
+                        Source = Source,
+                        MessageText =
+                            $"Внимание! Изменилось количество воркеров. Ожидаемое кол-во '{config.Workers}', текущее '{data.WorkersOnline}'. Хешрейт {data.Hashrate / Megahash:N1} MH/s"
+                    });
+                }
+            }
+            else
+            {
+                _hasWorkersError = false;
             }
 
             if (_paymentsTotal == 0)
@@ -123,9 +133,9 @@ namespace INotificator.Services
                 
                 await _sender.Send(new Message()
                 {
-                    Source = "2Miners",
+                    Source = Source,
                     MessageText =
-                        $"Осуществлена выплата. Количество: {payment.Amount / (MEGAHASH * 1000) :0.#####} ETH"
+                        $"Осуществлена выплата. Количество: {payment.Amount / (Megahash * 1000) :0.######} ETH"
                 });
             }
         }
