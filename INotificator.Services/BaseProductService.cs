@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
+using INotificator.Common.Models.Services.Senders;
 using Microsoft.Extensions.Logging;
 
 namespace INotificator.Services

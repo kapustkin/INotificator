@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using INotificator.Common.Models;
 using INotificator.Common.Interfaces;
+using INotificator.Common.Models.Services.Senders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;

@@ -1,5 +1,6 @@
 ﻿using System;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 
 namespace INotificator.Services.Storages.Converters
 {

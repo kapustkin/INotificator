@@ -6,6 +6,8 @@ using INotificator.Common.Interfaces.Parsers;
 using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
+using INotificator.Common.Models.Services.Senders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options = INotificator.Common.Models.Options;

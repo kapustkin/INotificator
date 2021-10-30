@@ -5,6 +5,7 @@ using INotificator.Common.Interfaces.Receivers;
 using INotificator.Common.Interfaces.Services;
 using INotificator.Common.Logger;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 using INotificator.Context;
 using INotificator.Services;
 using INotificator.Services.Parser;

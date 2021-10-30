@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 using INotificator.Context;
 using INotificator.Services.Storages.Converters;
 using Microsoft.EntityFrameworkCore;

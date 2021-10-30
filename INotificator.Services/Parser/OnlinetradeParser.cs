@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using INotificator.Common.Interfaces.Parsers;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options = INotificator.Common.Models.Options;

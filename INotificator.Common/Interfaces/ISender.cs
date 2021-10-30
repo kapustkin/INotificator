@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.Senders;
 
 namespace INotificator.Common.Interfaces
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace INotificator.Common.Models
+namespace INotificator.Common.Models.Services.BaseProductService
 {
     public class Product
     {

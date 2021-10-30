@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 
 namespace INotificator.Common.Interfaces
 {

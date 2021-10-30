@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using INotificator.Common.Interfaces;
 using INotificator.Common.Models;
+using INotificator.Common.Models.Services.BaseProductService;
 using Microsoft.Extensions.Logging;
 
 namespace INotificator.Services.Storages

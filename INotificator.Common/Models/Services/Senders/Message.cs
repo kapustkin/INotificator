@@ -1,4 +1,4 @@
-﻿namespace INotificator.Common.Models
+﻿namespace INotificator.Common.Models.Services.Senders
 {
     public class Message
     {

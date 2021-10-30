@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace INotificator.Common.Models
+namespace INotificator.Common.Models.Services.Hpool
 {
     public class LogRecord
     {
