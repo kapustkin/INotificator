@@ -137,6 +137,8 @@ namespace INotificator.Services
                     MessageText =
                         $"Осуществлена выплата. Количество: {payment.Amount / (Megahash * 1000) :0.######} ETH"
                 });
+
+                _paymentsTotal = data.PaymentsTotal;
             }
         }
     }
