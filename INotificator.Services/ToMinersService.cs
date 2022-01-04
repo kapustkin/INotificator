@@ -129,7 +129,7 @@ namespace INotificator.Services
 
             if (_paymentsTotal != data.PaymentsTotal)
             {
-                var payment = data.Payments.First();
+                var payment = data.Payments.Last();
                 
                 await _sender.Send(new Message()
                 {
