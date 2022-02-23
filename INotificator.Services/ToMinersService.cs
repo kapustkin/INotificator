@@ -21,18 +21,22 @@ namespace INotificator.Services
         private const long Megahash = 1000000;
         private const int UpdateDelayMinutes = 30;
         private const string Source = "2Miners";
-        
+
         private DateTime _lastStarted;
-        private int _paymentsTotal = 0;
+
+        /// <summary>
+        /// Дата последней выплаты. При запуске считаем что текущее время
+        /// </summary>
+        private DateTime? _lastPayment = DateTime.Now;
         private bool _hasWorkersError = false;
-        
+
         private readonly IBasicApiReceiver _receiver;
         private readonly IBasicApiParser _parser;
         private readonly ISender _sender;
-        
+
         private readonly ILogger _logger;
         private readonly Options _options;
-        
+
         public ToMinersService(
             IBasicApiReceiver receiver,
             IBasicApiParser parser,
@@ -46,14 +50,14 @@ namespace INotificator.Services
             _logger = logger;
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
-        
+
         public async Task CheckLog()
         {
             if (_options.ToMiners.IsEnabled == false)
             {
                 return;
             }
-            
+
             if ((DateTime.Now - _lastStarted).TotalMinutes < UpdateDelayMinutes)
             {
                 _logger.LogDebug($"Skipped. Will started after {(int)(UpdateDelayMinutes - (DateTime.Now - _lastStarted).TotalMinutes)} min");
@@ -77,7 +81,7 @@ namespace INotificator.Services
             catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, $"Возникло исключение при обработке ответа {ex.Message}");
-            } 
+            }
             _logger.LogDebug($"2Miners check end {_options.ToMiners.Url}");
         }
 
@@ -98,7 +102,7 @@ namespace INotificator.Services
                     MessageText =
                         $"Внимание! Изменилась версия Api! Ожидаемая версия '{config.ApiVersion}', текущая '{data.ApiVersion }'"
                 });
-                
+
                 return;
             }
 
@@ -122,23 +126,18 @@ namespace INotificator.Services
                 _hasWorkersError = false;
             }
 
-            if (_paymentsTotal == 0)
-            {
-                _paymentsTotal = data.PaymentsTotal;
-            }
+            var payment = data.Payments?.FirstOrDefault();
 
-            if (_paymentsTotal != data.PaymentsTotal)
+            if (payment != null && _lastPayment < payment.Timestamp)
             {
-                var payment = data.Payments.Last();
-                
+                _lastPayment = payment.Timestamp;
+
                 await _sender.Send(new Message()
                 {
                     Source = Source,
                     MessageText =
-                        $"Осуществлена выплата. Количество: {payment.Amount / (Megahash * 1000) :0.######} ETH"
+                        $"Осуществлена выплата. Количество: {payment.Amount / (Megahash * 1000):0.######} ETH"
                 });
-
-                _paymentsTotal = data.PaymentsTotal;
             }
         }
     }
