@@ -28,6 +28,12 @@ namespace INotificator.Services
         /// Дата последней выплаты. При запуске считаем что текущее время
         /// </summary>
         private DateTime? _lastPayment = DateTime.Now;
+
+        /// <summary>
+        /// Кол-во воркеров
+        /// </summary>
+        private int? _workersOnline = null;
+
         private bool _hasWorkersError = false;
 
         private readonly IBasicApiReceiver _receiver;
@@ -106,10 +112,11 @@ namespace INotificator.Services
                 return;
             }
 
-            if (data.WorkersOnline < config.Workers)
+            if (data.WorkersOnline != _workersOnline)
             {
                 if (!_hasWorkersError)
                 {
+                    _workersOnline = data.WorkersOnline;
                     _hasWorkersError = true;
                     _logger.LogWarning(
                         $"Warning! Workers count changed");
@@ -117,7 +124,7 @@ namespace INotificator.Services
                     {
                         Source = Source,
                         MessageText =
-                            $"Внимание! Изменилось количество воркеров. Ожидаемое кол-во '{config.Workers}', текущее '{data.WorkersOnline}'. Хешрейт {data.Hashrate / Megahash:N1} MH/s"
+                            $"Внимание! Изменилось количество воркеров. Текущее кол-во '{data.WorkersOnline}'. Хешрейт {data.Hashrate / Megahash:N1} MH/s"
                     });
                 }
             }
