@@ -34,8 +34,6 @@ namespace INotificator.Services
         /// </summary>
         private int? _workersOnline = null;
 
-        private bool _hasWorkersError = false;
-
         private readonly IBasicApiReceiver _receiver;
         private readonly IBasicApiParser _parser;
         private readonly ISender _sender;
@@ -114,23 +112,13 @@ namespace INotificator.Services
 
             if (data.WorkersOnline != _workersOnline)
             {
-                if (!_hasWorkersError)
+                _workersOnline = data.WorkersOnline;
+                _logger.LogWarning($"Warning! Workers count changed");
+                await _sender.Send(new Message()
                 {
-                    _workersOnline = data.WorkersOnline;
-                    _hasWorkersError = true;
-                    _logger.LogWarning(
-                        $"Warning! Workers count changed");
-                    await _sender.Send(new Message()
-                    {
-                        Source = Source,
-                        MessageText =
-                            $"Внимание! Изменилось количество воркеров. Текущее кол-во '{data.WorkersOnline}'. Хешрейт {data.Hashrate / Megahash:N1} MH/s"
-                    });
-                }
-            }
-            else
-            {
-                _hasWorkersError = false;
+                    Source = Source,
+                    MessageText = $"Внимание! Изменилось количество воркеров. Текущее кол-во '{data.WorkersOnline}'. Хешрейт {data.Hashrate / Megahash:N1} MH/s"
+                });
             }
 
             var payment = data.Payments?.FirstOrDefault();
